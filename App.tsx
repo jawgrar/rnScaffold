@@ -39,18 +39,6 @@ declare const global: {HermesInternal: null | {}};
 const App = () => {
   const [user, setUser] = useState<User | null>(null);
 
-  GoogleSignin.configure({
-    scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-    webClientId: '', // client ID of type WEB for your server (needed to verify user ID and offline access)
-    offlineAccess: false, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-    hostedDomain: '', // specifies a hosted domain restriction
-    loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
-    forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
-    accountName: '', // [Android] specifies an account name on the device that should be used
-    iosClientId:
-      '553601411500-l91tvgf579nv1geaarg40tb5jglcfb7b.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-  });
-
   // Somewhere in your code
   const signIn = async () => {
     try {
@@ -97,14 +85,6 @@ const App = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>
-                {user ? user.user.name : 'signin'}
-              </Text>
-              <Text style={styles.sectionDescription}>
-                Use <Text style={styles.highlight}>Google</Text> to connect the
-                app.
-              </Text>
-
               {user ? (
                 <Button title={'signOut'} onPress={signOut}></Button>
               ) : (
