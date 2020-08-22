@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,35 +19,59 @@ import {
   Button,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
-  User,
 } from '@react-native-community/google-signin';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 declare const global: {HermesInternal: null | {}};
 
-const App = () => {
-  const [user, setUser] = useState<User | null>(null);
+GoogleSignin.configure({
+  webClientId:
+    '668573933267-gf9js482ea3k1mscqko81jv2f0ggnm6v.apps.googleusercontent.com',
+});
 
-  // Somewhere in your code
-  const signIn = async () => {
+const App = () => {
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
+  // Handle user state changes
+  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  };
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  const signOut = async () => {
     try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log({userInfo});
-      setUser(userInfo);
+      await auth().signOut();
+      setUser(null); // Remember to remove the user from your app's state as well
     } catch (error) {
-      console.log({error});
+      console.error(error);
+    }
+  };
+
+  const onGoogleButtonPress = async () => {
+    try {
+      // Get the users ID token
+      const {idToken} = await GoogleSignin.signIn();
+
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
+    } catch (error) {
+      console.error({error});
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -60,16 +84,6 @@ const App = () => {
     }
   };
 
-  const signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      setUser(null); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -77,7 +91,6 @@ const App = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
@@ -85,14 +98,18 @@ const App = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
+              {initializing && <Text>initializing...</Text>}
               {user ? (
-                <Button title={'signOut'} onPress={signOut}></Button>
+                <>
+                  <Text>{`${user.displayName} ${user.email}`}</Text>
+                  <Button title={'signOut'} onPress={signOut}></Button>
+                </>
               ) : (
                 <GoogleSigninButton
                   style={{width: 192, height: 48}}
                   size={GoogleSigninButton.Size.Wide}
                   color={GoogleSigninButton.Color.Dark}
-                  onPress={signIn}
+                  onPress={onGoogleButtonPress}
                 />
               )}
             </View>
