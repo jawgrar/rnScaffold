@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text>
+    Lorem Ipsum
+  </Text>
+  <Text
+    style={
+      Object {
+        "fontSize": 10,
+        "marginVertical": 8,
+      }
+    }
+  >
+    user@test.com
+  </Text>
+</View>
+`;

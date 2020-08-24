@@ -21,15 +21,12 @@ const LoginScreen: FC<LoginProps> = () => {
       // Sign-in the user with the credential
       return auth().signInWithCredential(googleCredential);
     } catch (error) {
-      console.error({error});
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
+        console.info('user cancelled sign in');
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
+        console.info('user authentication is in progress');
       } else {
-        // some other error happened
+        console.error(error);
       }
     }
   };

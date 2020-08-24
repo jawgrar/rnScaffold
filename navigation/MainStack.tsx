@@ -10,7 +10,7 @@ interface StackProps {
 }
 const Stack = createStackNavigator();
 
-const MyStack: FC<StackProps> = ({user}) => {
+const MainStack: FC<StackProps> = ({user}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -26,4 +26,4 @@ const MyStack: FC<StackProps> = ({user}) => {
   );
 };
 
-export default MyStack;
+export default MainStack;

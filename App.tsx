@@ -1,27 +1,18 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import {GoogleSignin} from '@react-native-community/google-signin';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text} from 'react-native';
-import 'react-native-gesture-handler';
-import MyStack from './navigation/MainStack';
+import MainStack from './navigation/MainStack';
 
 GoogleSignin.configure({
+  // TODO: make this configurable by env.
   webClientId:
     '668573933267-gf9js482ea3k1mscqko81jv2f0ggnm6v.apps.googleusercontent.com',
 });
 
 const App = () => {
-  // Set an initializing state whilst Firebase connects
+  // TODO: move auth logic to an Auth Provider
+  // Set an initializing state FOR Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
@@ -35,17 +26,14 @@ const App = () => {
     auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
-  return (
-    <>
-      {initializing ? (
-        <SafeAreaView>
-          <Text>initializing...</Text>
-        </SafeAreaView>
-      ) : (
-        <MyStack user={user}></MyStack>
-      )}
-    </>
-  );
+  if (initializing)
+    return (
+      <SafeAreaView>
+        <Text>initializing...</Text>
+      </SafeAreaView>
+    );
+
+  return <MainStack user={user}></MainStack>;
 };
 
 export default App;
