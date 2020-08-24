@@ -17,14 +17,14 @@ const App = () => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
   // Handle user state changes
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
+  const manageUserState = (user: FirebaseAuthTypes.User | null) => {
     setUser(user);
     if (initializing) setInitializing(false);
   };
 
   useEffect(() => {
-    auth().onAuthStateChanged(onAuthStateChanged);
-  }, []);
+    auth().onAuthStateChanged(manageUserState);
+  }, [manageUserState]);
 
   if (initializing)
     return (
