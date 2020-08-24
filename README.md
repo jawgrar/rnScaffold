@@ -18,3 +18,6 @@ To test the app, there are 2 options:
 1. Test with detox, run first `detox build -c ios` or `detox build -c android` then `detox test -c ios` or `detox test -c android`
 
 **Important:** When running Detox test, it is still needed to log in google manually within 20 seconds when the confirmation popup.
+
+## demo
+Watch the app demo here https://youtu.be/6-bF8pqao1o
