@@ -20,9 +20,14 @@ const HomeScreen: FC<HomeProps> = ({user}) => {
   };
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      testID={'homeScreen'}
+      style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <ProfileInfo displayName={displayName} email={email}></ProfileInfo>
-      <Button title={'Sign out'} onPress={signOut}></Button>
+      <Button
+        title={'Sign out'}
+        onPress={signOut}
+        testID="signOutnButton"></Button>
     </View>
   );
 };
