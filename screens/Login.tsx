@@ -5,7 +5,7 @@ import {
 } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 import React, {FC} from 'react';
-import {SafeAreaView} from 'react-native';
+import {ScreenCenteredView} from '../styled';
 
 interface LoginProps {}
 
@@ -32,9 +32,7 @@ const LoginScreen: FC<LoginProps> = () => {
   };
 
   return (
-    <SafeAreaView
-      testID={'loginScreen'}
-      style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <ScreenCenteredView testID={'loginScreen'}>
       <GoogleSigninButton
         style={{width: 192, height: 48}}
         size={GoogleSigninButton.Size.Wide}
@@ -42,7 +40,7 @@ const LoginScreen: FC<LoginProps> = () => {
         onPress={onGoogleButtonPress}
         testID="googleSigninButton"
       />
-    </SafeAreaView>
+    </ScreenCenteredView>
   );
 };
 

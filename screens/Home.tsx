@@ -1,7 +1,8 @@
 import React, {FC} from 'react';
-import {Text, View, Button} from 'react-native';
+import {Button} from 'react-native';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import ProfileInfo from '../components/ProfileInfo';
+import {ScreenCenteredView} from '../styled';
 
 interface HomeProps {
   user: FirebaseAuthTypes.User;
@@ -20,15 +21,13 @@ const HomeScreen: FC<HomeProps> = ({user}) => {
   };
 
   return (
-    <View
-      testID={'homeScreen'}
-      style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <ScreenCenteredView testID={'homeScreen'}>
       <ProfileInfo displayName={displayName} email={email}></ProfileInfo>
       <Button
         title={'Sign out'}
         onPress={signOut}
         testID="signOutnButton"></Button>
-    </View>
+    </ScreenCenteredView>
   );
 };
 

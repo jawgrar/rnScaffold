@@ -1,8 +1,9 @@
 import {GoogleSignin} from '@react-native-community/google-signin';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {Text} from 'react-native';
 import MainStack from './navigation/MainStack';
+import {ScreenCenteredView} from './styled';
 
 GoogleSignin.configure({
   // TODO: make this configurable by env.
@@ -28,9 +29,9 @@ const App = () => {
 
   if (initializing)
     return (
-      <SafeAreaView>
+      <ScreenCenteredView>
         <Text>initializing...</Text>
-      </SafeAreaView>
+      </ScreenCenteredView>
     );
 
   return <MainStack user={user}></MainStack>;
