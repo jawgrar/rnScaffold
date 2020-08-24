@@ -3,11 +3,15 @@ React Native sample app
 
 To run the application, follow these instructions:
 
+## setup
 1. `yarn install`
 1. `cd ios` and `pod install`
-1. `yarn start`
+
+## run
+1. launch first `yarn start`
 1. in a separate terminals run `yarn ios` or `yarn android`
 
+## test
 To test the app, there are 2 options:
 
 1. Test with jest only `yarn test`
